@@ -38,6 +38,10 @@ sudo cp /tmp//microsoft-prod.list /etc/apt/sources.list.d/
 echo -e "${VERDE}[INFO] - Instalando a chave pública Microsoft GPG (GNU Privacy Guard)...${SEM_COR}"
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/microsoft.gpg &> /dev/null
 echo -e "${VERDE}[INFO] - Copiando a chave gerada para o diretório de referência do GPG...${SEM_COR}"
+echo -e "${VERDE}[INFO] - Teste nova linha de comentário...${SEM_COR}"
+echo -e "${VERDE}[INFO] - Teste nova linha de comentário...${SEM_COR}"
+echo -e "${VERDE}[INFO] - Teste nova linha de comentário...${SEM_COR}"
+echo -e "${VERDE}[INFO] - Teste nova linha de comentário...${SEM_COR}"
 sudo cp /tmp/microsoft.gpg /etc/apt/trusted.gpg.d/ &> /dev/null
 # ------------------------------------------------------------------------------ #
 # Instala o tempo de execução de Conteiner (moby-engine)
