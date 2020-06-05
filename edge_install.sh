@@ -119,8 +119,8 @@ fi
 
 echo -e "${CYAN}[STEP] - Configurando o IoT Edge para modo automático de provisionamento...${SEM_COR}"
 
-SCOPE_ID="0ne00101C66"
-GRP_KEY="C0UfSJ/Ngpd+8MhvVuQsnaD0KJ04Hf99cLBJiDNSfq/EkRXJLqOWsDYQ3Qv/GvNBtLdRMteEaUjFyBxvtKbQKg=="
+SCOPE_ID="0ne001170B8"
+GRP_KEY="4Yut//CG0ndjK3FyxxxVyz5tQ2lKHmVVTkH4b83NWsqC+BPrpSnM/itxfsQYnfI98Vt2OlNBCop2XYFsWqn64w=="
 echo -e "${VERDE}[INFO] - Identificador DPS e chave de grupo foram atribuídos.${SEM_COR}"
 
 REG_ID=$(sudo cat /sys/class/net/enp0s3/address)
