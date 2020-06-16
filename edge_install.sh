@@ -84,7 +84,7 @@ fi
 # Instalando o tempo de execução da tecnologia de container Moby
 
 echo -e "${CYAN}[STEP] - Instalando a tecnologia de container Moby-engine...${SEM_COR}"
-sudo apt-get install moby-engine -qq -y &> /dev/null
+sudo apt-get install moby-engine -qq -y
 if [ 0 -eq $? ]; then
     echo -e "${VERDE}[INFO] - Moby-engine instalado com sucesso.${SEM_COR}"
 else
@@ -133,7 +133,7 @@ if [ 0 -eq $? ]; then
     sudo sed -i 's|<SYMMETRIC_KEY>|'"$SYM_KEY"'|g' /etc/iotedge/config.yaml
     sudo sed -i "53,55 s/^/#/" /etc/iotedge/config.yaml
     sudo sed -i "67,74 s/#//" /etc/iotedge/config.yaml
-    sudo sed -i "67,74 s/^ *//1" /etc/iotedge/config.yaml
+    #sudo sed -i "67,74 s/^ *//1" /etc/iotedge/config.yaml
     echo -e "${VERDE}[INFO] - Arquivo de configuração ajustado para provisionamento automático.${SEM_COR}"
 else
     echo -e "${VERMELHO}[INFO] - Problema com obtenção do endereço MAC e geração da chave do dispositivo.${SEM_COR}" && exit
@@ -156,6 +156,6 @@ echo -e "${VERDE}[INFO] - Processo de instalação finalizado.${SEM_COR}"
 
 #echo -e "${CYAN}[STEP] - Iniciando o processo de checagem de funcionamento...${SEM_COR}"
 
-#sudo iotedge check --iothub-hostname "AZURE-IOT-HUB-PROJETO-HEMS.azure-devices.net"
-
+#sudo iotedge check --iothub-hostname "AZURE-IOT-HUB-1.azure-devices.net" --verbose
+#sudo iotedge list
 # ------------------------------------------------------------------------------ #
