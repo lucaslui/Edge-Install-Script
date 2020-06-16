@@ -72,45 +72,57 @@ fi
 # ------------------------------------------------------------------------------ #
 # Atualizando a lista de programas no repositório do sistema e da Microsoft
 
-echo -e "${CYAN}[STEP] - Atualizando a lista pacotes nos repositórios...${SEM_COR}"
+echo -e "${CYAN}[STEP] - Atualizando a lista de pacotes nos repositórios...${SEM_COR}"
 sudo apt-get update -qq
 if [ 0 -eq $? ]; then
-    echo -e "${VERDE}[INFO] - Repositórios atualizados com sucesso.${SEM_COR}"
+    echo -e "${VERDE}[INFO] - Lista de pacotes atualizada com sucesso.${SEM_COR}"
 else
-    echo -e "${VERMELHO}[INFO] - Falha na atualização dos repositórios.${SEM_COR}" && exit
+    echo -e "${VERMELHO}[INFO] - Falha na atualização da lista de pacotes.${SEM_COR}" && exit
 fi
 
 # ------------------------------------------------------------------------------ #
 # Instalando o tempo de execução da tecnologia de container Moby
 
 echo -e "${CYAN}[STEP] - Instalando a tecnologia de container Moby-engine...${SEM_COR}"
-sudo apt-get install moby-engine -qq -y
-if [ 0 -eq $? ]; then
-    echo -e "${VERDE}[INFO] - Moby-engine instalado com sucesso.${SEM_COR}"
+if ! dpkg -l | grep -q moby-engine; then
+    sudo apt-get install moby-engine -qq -y &> /dev/null
+    if [ 0 -eq $? ]; then
+        echo -e "${VERDE}[INFO] - Moby-engine instalado com sucesso.${SEM_COR}"
+    else
+        echo -e "${VERMELHO}[INFO] - Falha na instalação do Moby-engine.${SEM_COR}" && exit
+    fi
 else
-    echo -e "${VERMELHO}[INFO] - Falha na instalação do Moby-engine.${SEM_COR}" && exit
+    echo -e "${VERDE}[INFO] - Moby-engine já está instalado.${SEM_COR}"
 fi
 
 # ------------------------------------------------------------------------------ #
 # Instalando a interface de linha de comando Moby (CLI)
 
 echo -e "${CYAN}[STEP] - Instalando a interface de linha de comando Moby-CLI...${SEM_COR}" 
-sudo apt-get install moby-cli -qq -y &> /dev/null
-if [ 0 -eq $? ]; then
-    echo -e "${VERDE}[INFO] - Moby-CLI instalado com sucesso.${SEM_COR}"
+if ! dpkg -l | grep -q moby-cli; then
+    sudo apt-get install moby-cli -qq -y &> /dev/null
+    if [ 0 -eq $? ]; then
+        echo -e "${VERDE}[INFO] - Moby-CLI instalado com sucesso.${SEM_COR}"
+    else
+        echo -e "${VERMELHO}[INFO] - Falha na instalação do Moby-CLI.${SEM_COR}" && exit
+    fi
 else
-    echo -e "${VERMELHO}[INFO] - Falha na instalação do Moby-CLI.${SEM_COR}" && exit
+    echo -e "${VERDE}[INFO] - Moby-CLI já está instalado.${SEM_COR}"
 fi
 
 # ------------------------------------------------------------------------------ #
 # Instalando o Daemon de Segurança do Azure IoT Edge 
 
 echo -e "${CYAN}[STEP] - Instalando o Azure IoT Edge Security Daemon...${SEM_COR}"
-sudo apt-get install iotedge -qq -y &> /dev/null
-if [ 0 -eq $? ]; then
-    echo -e "${VERDE}[INFO] - Azure IoT Edge Security Daemon instalado com sucesso.${SEM_COR}"
+if ! dpkg -l | grep -q iotedge; then
+    sudo apt-get install iotedge -qq -y &> /dev/null
+    if [ 0 -eq $? ]; then
+        echo -e "${VERDE}[INFO] - Azure IoT Edge instalado com sucesso.${SEM_COR}"
+    else
+        echo -e "${VERMELHO}[INFO] - Falha na instalação do Azure IoT Edge.${SEM_COR}" && exit
+    fi
 else
-    echo -e "${VERMELHO}[INFO] - Falha na instalação do Azure IoT Edge Security Daemon.${SEM_COR}" && exit
+    echo -e "${VERDE}[INFO] - Azure IoT Edge já está instalado.${SEM_COR}"
 fi
 
 # ------------------------------------------------------------------------------ #
@@ -133,17 +145,16 @@ if [ 0 -eq $? ]; then
     sudo sed -i 's|<SYMMETRIC_KEY>|'"$SYM_KEY"'|g' /etc/iotedge/config.yaml
     sudo sed -i "53,55 s/^/#/" /etc/iotedge/config.yaml
     sudo sed -i "67,74 s/#//" /etc/iotedge/config.yaml
-    #sudo sed -i "67,74 s/^ *//1" /etc/iotedge/config.yaml
-    echo -e "${VERDE}[INFO] - Arquivo de configuração ajustado para provisionamento automático.${SEM_COR}"
-else
-    echo -e "${VERMELHO}[INFO] - Problema com obtenção do endereço MAC e geração da chave do dispositivo.${SEM_COR}" && exit
-fi
-
-#sudo sed -e "s/<SCOPE_ID>/$SCOPE_ID/g" \
+    sudo sed -i "67,74 s/ //1" /etc/iotedge/config.yaml
+    #sudo sed -e "s/<SCOPE_ID>/$SCOPE_ID/g" \
 #         -e "s/<REGISTRATION_ID>/$REG_ID/g" \
 #         -e "s/<SYMMETRIC_KEY>/$SYM_KEY/g" \
 #         -e "53,55 s/^/#/" \
 #         -e "67,74 s/#//" /etc/iotedge/config.yaml > /home/lucas/shared/config.yaml
+    echo -e "${VERDE}[INFO] - Arquivo de configuração ajustado para provisionamento automático.${SEM_COR}"
+else
+    echo -e "${VERMELHO}[INFO] - Problema com obtenção do endereço MAC e geração da chave do dispositivo.${SEM_COR}" && exit
+fi
 
 # ------------------------------------------------------------------------------ #
 # Reiniciando o Azure IoT Edge
