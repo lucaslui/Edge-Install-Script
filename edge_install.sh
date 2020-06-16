@@ -146,11 +146,6 @@ if [ 0 -eq $? ]; then
     sudo sed -i "53,55 s/^/#/" /etc/iotedge/config.yaml
     sudo sed -i "67,74 s/#//" /etc/iotedge/config.yaml
     sudo sed -i "67,74 s/ //1" /etc/iotedge/config.yaml
-    #sudo sed -e "s/<SCOPE_ID>/$SCOPE_ID/g" \
-#         -e "s/<REGISTRATION_ID>/$REG_ID/g" \
-#         -e "s/<SYMMETRIC_KEY>/$SYM_KEY/g" \
-#         -e "53,55 s/^/#/" \
-#         -e "67,74 s/#//" /etc/iotedge/config.yaml > /home/lucas/shared/config.yaml
     echo -e "${VERDE}[INFO] - Arquivo de configuração ajustado para provisionamento automático.${SEM_COR}"
 else
     echo -e "${VERMELHO}[INFO] - Problema com obtenção do endereço MAC e geração da chave do dispositivo.${SEM_COR}" && exit
@@ -158,6 +153,7 @@ fi
 
 # ------------------------------------------------------------------------------ #
 # Reiniciando o Azure IoT Edge
+
 echo -e "${CYAN}[STEP] - Reiniciando o Azure IoT Edge com novas configurações...${SEM_COR}"
 sudo systemctl restart iotedge
 echo -e "${VERDE}[INFO] - Processo de instalação finalizado.${SEM_COR}"
@@ -165,8 +161,8 @@ echo -e "${VERDE}[INFO] - Processo de instalação finalizado.${SEM_COR}"
 # ------------------------------------------------------------------------------ #
 # Checando se o Azure IoT Edge está funcionando
 
-#echo -e "${CYAN}[STEP] - Iniciando o processo de checagem de funcionamento...${SEM_COR}"
+# echo -e "${CYAN}[STEP] - Iniciando o processo de checagem...${SEM_COR}"
 
-#sudo iotedge check --iothub-hostname "AZURE-IOT-HUB-1.azure-devices.net" --verbose
-#sudo iotedge list
+# sudo iotedge check --iothub-hostname "AZURE-IOT-HUB-1.azure-devices.net" --verbose
+
 # ------------------------------------------------------------------------------ #
